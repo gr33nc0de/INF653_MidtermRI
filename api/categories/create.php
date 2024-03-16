@@ -18,7 +18,7 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  if (!empty($data->name)) { // Assuming your categories have a 'name' attribute
+  if (!empty($data->name)) { 
     // Set category property values
     $category->name = $data->name; // Change from author to name
 

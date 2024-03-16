@@ -18,12 +18,12 @@ $category = new Category($db); // Change to Category object
 $category->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 // Read single category
-$category->read_single(); // Assuming your Category model has a read_single method
+$category->read_single(); 
 
 // Create array
 $category_arr = array(
     'id' => $category->id,
-    'name' => $category->name // Assuming your category model has a 'name' property
+    'name' => $category->name 
 );
 
 // Make JSON

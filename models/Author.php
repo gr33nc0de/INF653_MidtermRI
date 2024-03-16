@@ -21,7 +21,7 @@ class Author {
               FROM 
                 ' . $this->table . '
               ORDER BY
-                author ASC'; // Or 'id ASC', depending on how you want to order them
+                author ASC'; // 
     
     // Prepare statement
     $stmt = $this->conn->prepare($query);

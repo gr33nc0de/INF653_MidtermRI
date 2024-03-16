@@ -15,7 +15,7 @@ $db = $database->connect();
 $category = new Category($db); // Change to Category object
 
 // Read categories
-$result = $category->read(); // Assuming your Category model has a read method
+$result = $category->read(); 
 
 // Get row count
 $num = $result->rowCount();
@@ -31,7 +31,7 @@ if ($num > 0) {
 
         $category_item = array(
             'id' => $id,
-            'name' => $name // Assuming your category model has a 'name' property
+            'name' => $name 
         );
 
         // Push to "data"

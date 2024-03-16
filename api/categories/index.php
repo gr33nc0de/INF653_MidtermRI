@@ -25,19 +25,19 @@ $category = new Category($db); // Update to Category object
 switch ($method) {
     case 'GET':
         // Handle GET request
-        include_once 'read.php'; // Include read.php for fetching categories
+        include_once 'read.php'; 
         break;
     case 'POST':
         // Handle POST request
-        include_once 'create.php'; // Include create.php for adding new category
+        include_once 'create.php'; 
         break;
     case 'PUT':
         // Handle PUT request
-        include_once 'update.php'; // Include update.php for updating category
+        include_once 'update.php';
         break;
     case 'DELETE':
         // Handle DELETE request
-        include_once 'delete.php'; // Include delete.php for deleting category
+        include_once 'delete.php'; 
         break;
     default:
         // Invalid method

@@ -1,4 +1,5 @@
-
+--Code I used to create and populate the database
+--I ran it directly in the -psql terminal 
 -- Create the authors table
 CREATE TABLE authors (
     id SERIAL PRIMARY KEY,

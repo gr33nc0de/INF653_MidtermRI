@@ -20,13 +20,13 @@ $category = new Category($db); // Change to Category object
 $data = json_decode(file_get_contents("php://input"));
 
 // Check if data is not empty
-if (!empty($data->name)) { // Assuming your category update requires a 'name' field
+if (!empty($data->name)) { 
     // Set category property values
-    $category->id = $data->id; // Assuming your category update requires an 'id' field
+    $category->id = $data->id; 
     $category->name = $data->name;
 
     // Update category
-    if ($category->update()) { // Assuming your Category model has an 'update' method
+    if ($category->update()) { 
         echo json_encode(array('message' => 'Category updated'));
     } else {
         echo json_encode(array('message' => 'Category not updated'));

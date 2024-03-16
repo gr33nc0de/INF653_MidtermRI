@@ -78,6 +78,4 @@ class Quote {
     $this->category_name = $row['category_name'];
   }
 
-  // Create, Update, and Delete methods would be similar in structure to the Post example, 
-  // but adapted for the Quote properties and database schema.
 }
