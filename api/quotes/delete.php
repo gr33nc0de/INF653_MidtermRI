@@ -21,7 +21,7 @@ $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 // Check if the quote exists before attempting deletion
 if (!$quote->exists()) {
-    echo json_encode(array('message' => 'No Quote Found'));
+    echo json_encode(array('message' => 'No Quotes Found'));
 } else {
     // Delete quote
     if ($quote->delete()) {
