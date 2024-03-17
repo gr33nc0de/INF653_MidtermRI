@@ -31,6 +31,6 @@
           echo json_encode(array('message' => 'Author not updated'));
       }
   } else {
-      echo json_encode(array('message' => 'Missing author parameter'));
+    echo json_encode(array('message' => 'Missing required parameters'));
   }
 
