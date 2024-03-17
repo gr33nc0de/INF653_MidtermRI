@@ -8,7 +8,7 @@
     <title>INF653 Midterm Project RI</title>
     <style>
         body {
-            background-color: #164976;
+            background-color: #052858;
             color: whitesmoke;
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -22,7 +22,8 @@
 </head>
 
 <body>
-    <h1>INF653 Midterm Project - REST API - Rafaela I.</h1>
+    <h1>INF653 Midterm Project</h1>
+    <h3>REST API - Rafaela I - March 2024</h3>
 </body>
 
 </html>
