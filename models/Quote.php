@@ -21,8 +21,8 @@ class Quote {
   public function read() {
     // Create query
     $query = 'SELECT 
-                a.author as author_name, 
-                c.category as category_name, 
+                a.author AS author, 
+                c.category AS category, 
                 q.id, q.quote, q.author_id, q.category_id
               FROM 
                 ' . $this->table . ' q
@@ -40,7 +40,7 @@ class Quote {
     $stmt->execute();
 
     return $stmt;
-  }
+}
 
   // Get Single Quote
   public function read_single() {
