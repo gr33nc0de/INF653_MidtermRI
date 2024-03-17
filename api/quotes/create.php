@@ -32,6 +32,6 @@ if (!empty($data->quote) && !empty($data->author_id) && !empty($data->category_i
         echo json_encode(array('message' => 'Quote Not Created'));
     }
 } else {
-    echo json_encode(array('message' => 'Missing required parameters'));
+    echo json_encode(array('message' => 'Missing Required Parameters'));
 }
 ?>
