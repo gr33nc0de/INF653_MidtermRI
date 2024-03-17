@@ -3,51 +3,23 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// Include necessary files
+// Include database and functions files
 include_once '../../config/Database.php';
-include_once '../../models/Quote.php';
+include_once '../../functions/quote_functions.php';
 
 // Instantiate Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Quote object
-$quote = new Quote($db);
+// Get quotes
+$quotes_arr = getQuotes($db);
 
-// Read quotes
-$result = $quote->read();
-
-// Get row count
-$num = $result->rowCount();
-
-// Check if any quotes
-if ($num > 0) {
-    // Quotes array
-    $quotes_arr = array();
-    $quotes_arr['data'] = array();
-
-    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-        // Extracting individual fields from $row
-        $id = $row['id'];
-        $quote_text = $row['quote'];
-        $author = $row['author'];
-        $category = $row['category'];
-
-        $quote_item = array(
-            'id' => $id,
-            'quote' => $quote_text,
-            'author' => $author, 
-            'category' => $category 
-        );
-
-        // Push to "data"
-        array_push($quotes_arr['data'], $quote_item);
-    }
-
+// Check if more than 0 records found
+if (isset($quotes_arr['data']) && count($quotes_arr['data']) > 0) {
     // Convert to JSON and output
     echo json_encode($quotes_arr);
 } else {
     // No quotes found
-    echo json_encode(array('message' => 'No quotes found'));
+    echo json_encode($quotes_arr); // This will output the message 'No quotes found' if that's the case
 }
 ?>
