@@ -43,6 +43,6 @@ if ($num > 0) {
     echo json_encode($quotes_arr);
 } else {
     // No quotes found
-    echo json_encode(array('message' => 'No quotes found'));
+    echo json_encode(array('message' => 'No Quotes Found'));
 }
 ?>

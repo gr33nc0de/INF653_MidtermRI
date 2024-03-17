@@ -34,6 +34,8 @@
         array('message' => 'Author Not Created')
       );
     }
-  } else {echo json_encode(array('message' => 'Missing author parameter'));
+  } else {echo json_encode(
+    array('message' => 'Missing Required Parameters')
+  );
 }
 
