@@ -19,10 +19,20 @@ $quote = new Quote($db);
 // Get quote id from URL
 $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-// Delete quote
-if ($quote->delete()) {
-    echo json_encode(array('message' => 'Quote deleted'));
+// Check if the quote exists before attempting deletion
+if (!$quote->exists()) {
+    echo json_encode(array('message' => 'No Quote Found'));
 } else {
-    echo json_encode(array('message' => 'Quote not deleted'));
+    // Delete quote
+    if ($quote->delete()) {
+        echo json_encode(
+            array(
+                'message' => 'Quote deleted',
+                'id' => $quote->id // Assuming $quote->id is still set to the deleted quote's id
+            )
+        );
+    } else {
+        echo json_encode(array('message' => 'Quote not deleted'));
+    }
 }
 ?>
