@@ -31,7 +31,7 @@ if ($num > 0) {
 
         $category_item = array(
             'id' => $id,
-            'name' => $name 
+            'category' => $category 
         );
 
         // Push to "data"
