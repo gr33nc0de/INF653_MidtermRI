@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 include_once '../../config/Database.php';
 include_once '../../models/Quote.php';
 
-// Instantiate Database object
+// Instantiate Database object and connect
 $database = new Database();
 $db = $database->connect();
 
@@ -15,19 +15,28 @@ $db = $database->connect();
 $quote = new Quote($db);
 
 // Get quote id from URL
-$quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+$quote_id = isset($_GET['id']) ? $_GET['id'] : die();
+
+// Set the ID for the quote to read
+$quote->id = $quote_id;
 
 // Read single quote
-$quote->read_single();
+$result = $quote->read_single();
 
-// Create array
-$quote_arr = array(
-    'id' => $quote->id,
-    'quote' => $quote->quote,
-    'author' => $quote->author,
-    'category' => $quote->category
-);
+// Check if any quote is found
+if($quote->quote !== null) {
+    // Create array
+    $quote_arr = array(
+        'id' => $quote->id,
+        'quote' => $quote->quote,
+        'author' => $quote->author, 
+        'category' => $quote->category 
+    );
 
-// Make JSON
-print_r(json_encode($quote_arr));
+    // Make JSON
+    echo json_encode($quote_arr);
+} else {
+    // No quote found
+    echo json_encode(array('message' => 'No Quote Found with that ID'));
+}
 ?>
