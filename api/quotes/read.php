@@ -6,6 +6,7 @@ header('Content-Type: application/json');
 // Include database and functions files
 include_once '../../config/Database.php';
 include_once '../../functions/quote_functions.php';
+include_once '../../models/Quote.php';
 
 // Instantiate Database object
 $database = new Database();
