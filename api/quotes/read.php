@@ -24,7 +24,6 @@ $num = $result->rowCount();
 if ($num > 0) {
     // Quotes array
     $quotes_arr = array();
-    $quotes_arr['data'] = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -36,10 +35,9 @@ if ($num > 0) {
             'category' => $category 
         );
     
-        // Push to "data"
-        array_push($quotes_arr['data'], $quote_item);
+        // Push to array
+        $quotes_arr[] = $quote_item;
     }
-    
 
     // Convert to JSON and output
     echo json_encode($quotes_arr);
