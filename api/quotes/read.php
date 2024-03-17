@@ -27,13 +27,17 @@ if ($num > 0) {
     $quotes_arr['data'] = array();
 
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-        extract($row);
+        // Extracting individual fields from $row
+        $id = $row['id'];
+        $quote_text = $row['quote'];
+        $author = $row['author'];
+        $category = $row['category'];
 
         $quote_item = array(
             'id' => $id,
-            'quote' => $quote,
-            'author' => $author,
-            'category' => $category
+            'quote' => $quote_text,
+            'author' => $author, 
+            'category' => $category 
         );
 
         // Push to "data"
