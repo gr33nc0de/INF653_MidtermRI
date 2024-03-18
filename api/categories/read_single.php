@@ -34,7 +34,7 @@ if (!empty($category->category)) {
     echo json_encode($category_arr);
 } else {
     // No category found
-    echo json_encode(array('message' => 'No category found with that ID'));
+    echo json_encode(array('message' => 'category_id Not Found'));
 }
 
 ?>

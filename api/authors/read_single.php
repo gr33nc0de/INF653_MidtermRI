@@ -21,11 +21,18 @@ $author->id = isset($_GET['id']) ? $_GET['id'] : die();
 // Read single author
 $author->read_single();
 
-// Create array
-$author_arr = array(
-    'id' => $author->id,
-    'author' => $author->author
-);
+// Check if the category name was set
+if (!empty($author->author)) {
+  // Create array
+  $author_arr = array(
+      'id' => $author->id,
+      'author' => $author->author
+  );
 
-// Make JSON
-print_r(json_encode($author_arr));
+  // Make JSON
+  echo json_encode($author_arr);
+} else {
+  // No category found
+  echo json_encode(array('message' => 'author_id Not Found'));
+}
+
