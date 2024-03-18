@@ -19,19 +19,30 @@ $category = new Category($db); // Change to Category object
 // Get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// Check if data is not empty
-if (!empty($data->name)) { 
+// Check if data is not empty and id is set
+if (!empty($data->id) && !empty($data->category)) 
+{
     // Set category property values
-    $category->id = $data->id; 
-    $category->name = $data->name;
+    $category->id = $data->id;
+    $category->category = $data->category;
 
     // Update category
-    if ($category->update()) { 
-        echo json_encode(array('message' => 'Category updated'));
-    } else {
-        echo json_encode(array('message' => 'Category not updated'));
+    if ($category->update()) {
+        // Prepare the response array
+        $response = array(
+            "id" => $category->id,
+            "category" => $category->category
+        );
+
+        // Return the response in JSON format
+        echo json_encode($response);
+    } else 
+    {
+        echo json_encode(array('message' => 'Category Not Updated'));
     }
-} else {
+} else 
+{
     echo json_encode(array('message' => 'Missing Required Parameters'));
 }
 ?>
+
