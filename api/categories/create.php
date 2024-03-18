@@ -6,21 +6,21 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Category.php'; // Change from Author to Category
+  include_once '../../models/Category.php'; 
 
   // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
   // Instantiate Category object
-  $category = new Category($db); // Change from Author to Category
+  $category = new Category($db); 
 
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
   if (!empty($data->name)) { 
     // Set category property values
-    $category->name = $data->name; // Change from author to name
+    $category->name = $data->name;
 
     // Create category
     if($category->create()) {

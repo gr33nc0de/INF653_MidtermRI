@@ -1,6 +1,6 @@
 <?php 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 class Quote 
 {
@@ -95,6 +95,56 @@ class Quote
     }
   }
 
+// Create Quote
+public function create() 
+{
+  // Create query
+  $query = 'INSERT INTO ' . $this->table . ' (quote, author_id, category_id) VALUES (:quote, :author_id, :category_id)';
+
+  // Prepare statement
+  $stmt = $this->conn->prepare($query);
+
+  // Clean data
+  $this->quote = htmlspecialchars(strip_tags($this->quote));
+  $this->author_id = htmlspecialchars(strip_tags($this->author_id));
+  $this->category_id = htmlspecialchars(strip_tags($this->category_id));
+
+  // Bind data
+  $stmt->bindParam(':quote', $this->quote);
+  $stmt->bindParam(':author_id', $this->author_id);
+  $stmt->bindParam(':category_id', $this->category_id);
+
+  try 
+  {
+      // Execute query
+      $stmt->execute();
+      return $this->conn->lastInsertId(); // Return the last inserted ID
+  } catch(PDOException $e) {
+      // Check if the error code indicates a foreign key violation
+      if ($e->getCode() == '23503') 
+      {
+          // Check if the author_id does not exist
+          $authorExists = $this->authorExists($this->author_id);
+          if (!$authorExists) {
+              return 'author_id_not_found';
+          }
+
+          // Check if the category_id does not exist
+          $categoryExists = $this->categoryExists($this->category_id);
+          if (!$categoryExists) {
+              return 'category_id_not_found';
+          }
+      }
+
+      // For other errors, you can log or handle them as needed
+      error_log('PDOException: ' . $e->getMessage());
+      return false;
+  }
+}
+
+
+
+
   // Update Quote
   public function update() 
   {
@@ -152,27 +202,45 @@ class Quote
     return $stmt->rowCount() > 0;
   }
 
-  // Check if the author exists
-  private function authorExists() 
+  public function authorExists($authorId) 
   {
-    $query = "SELECT id FROM authors WHERE id = ? LIMIT 0,1";
+    $query = 'SELECT COUNT(*) FROM authors WHERE id = :author_id';
 
+    // Prepare statement
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1, $this->author_id);
+    
+    // Bind ID
+    $stmt->bindParam(':author_id', $authorId);
+
+    // Execute query
     $stmt->execute();
 
-    return $stmt->rowCount() > 0;
-  }
+    // Check if any rows returned
+    if ($stmt->fetchColumn()) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
-  // Check if the category exists
-  private function categoryExists() 
-  {
-    $query = "SELECT id FROM categories WHERE id = ? LIMIT 0,1";
+public function categoryExists($categoryId) 
+{
+    $query = 'SELECT COUNT(*) FROM categories WHERE id = :category_id';
 
+    // Prepare statement
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1, $this->category_id);
+    
+    // Bind ID
+    $stmt->bindParam(':category_id', $categoryId);
+
+    // Execute query
     $stmt->execute();
 
-    return $stmt->rowCount() > 0;
-  }
+    // Check if any rows returned
+    if ($stmt->fetchColumn()) {
+        return true;
+    } else {
+        return false;
+    }
+}
 }
