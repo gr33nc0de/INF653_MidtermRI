@@ -13,29 +13,29 @@
   $db = $database->connect();
 
   // Instantiate Author object
-  $author = new Author($db);
+$author = new Author($db); 
 
-  // Get raw posted data
-  $data = json_decode(file_get_contents("php://input"));
+// Get raw posted data
+$data = json_decode(file_get_contents("php://input"));
 
-  if (!empty($data->author)) 
-  {
-    // Set author property values
+if (!empty($data->author)) { 
+    // Set author property value
     $author->author = $data->author;
-    //$author->name = $data->name;
 
     // Create author
-    if($author->create()) {
-      echo json_encode(
-        array('message' => 'Author Created')
-      );
-    } else {
-      echo json_encode(
-        array('message' => 'Author Not Created')
-      );
-    }
-  } else {echo json_encode(
-    array('message' => 'Missing Required Parameters')
-  );
-}
+    $new_author_id = $author->create();
 
+    if($new_author_id) {
+        // If the author was successfully created, return its data
+        $author_data = array(
+            'id' => $new_author_id,
+            'author' => $data->author
+        );
+
+        echo json_encode($author_data);
+    } else {
+        echo json_encode(array('message' => 'Author Not Created'));
+    }
+} else {
+    echo json_encode(array('message' => 'Missing Required Parameters'));
+}

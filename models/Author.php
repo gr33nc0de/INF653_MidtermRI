@@ -63,30 +63,30 @@ class Author {
 }
 
 
-  // Create Author
-  public function create() {
-    // Create query
-    $query = 'INSERT INTO ' . $this->table . ' SET author = :author';
+// Create Author
+public function create() {
+  // Create query
+  $query = 'INSERT INTO ' . $this->table . ' (author) VALUES (:author)';
 
-    // Prepare statement
-    $stmt = $this->conn->prepare($query);
+  // Prepare statement
+  $stmt = $this->conn->prepare($query);
 
-    // Clean data
-    $this->author = htmlspecialchars(strip_tags($this->author));
+  // Clean data
+  $this->author = htmlspecialchars(strip_tags($this->author));
 
-    // Bind data
-    $stmt->bindParam(':author', $this->author);
+  // Bind data
+  $stmt->bindParam(':author', $this->author);
 
-    // Execute query
-    if($stmt->execute()) {
-      return true;
-    }
-
-    // Print error if something goes wrong
-    printf("Error: %s.\n", $stmt->error);
-
-    return false;
+  // Execute query
+  if($stmt->execute()) {
+      // Return the ID of the newly inserted row
+      return $this->conn->lastInsertId();
   }
+
+  // Return false if execution fails
+  return false;
+}
+
 
   // Update Author
   public function update() {
