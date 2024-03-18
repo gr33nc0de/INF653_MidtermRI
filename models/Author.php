@@ -2,7 +2,8 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
-class Author {
+class Author 
+{
   // DB stuff
   private $conn;
   private $table = 'authors';
@@ -12,12 +13,14 @@ class Author {
   public $author;
 
   // Constructor with DB
-  public function __construct($db) {
+  public function __construct($db) 
+  {
     $this->conn = $db;
   }
 
-  // Get Authors
-  public function read() {
+  // 1. Read() to Get Authors
+  public function read() 
+  {
     // Create query
     $query = 'SELECT
                 id, author
@@ -35,8 +38,9 @@ class Author {
     return $stmt;
   }
 
-  // Get Single Author
-  public function read_single() {
+  // 2. Read_single() to Get single Authors
+  public function read_single() 
+  {
     // Query to check if author exists
     $query = 'SELECT id, author FROM ' . $this->table . ' WHERE id = ? LIMIT 1';
 
@@ -52,44 +56,47 @@ class Author {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Check if any row is returned
-    if ($row) {
+    if ($row) 
+    {
         // Author exists, set properties
         $this->author = $row['author'];
         return true; // Indicate author was found
-    } else {
+    } else 
+    {
         // No author found
         return false; // Indicate no author was found
     }
-}
-
-
-// Create Author
-public function create() {
-  // Create query
-  $query = 'INSERT INTO ' . $this->table . ' (author) VALUES (:author)';
-
-  // Prepare statement
-  $stmt = $this->conn->prepare($query);
-
-  // Clean data
-  $this->author = htmlspecialchars(strip_tags($this->author));
-
-  // Bind data
-  $stmt->bindParam(':author', $this->author);
-
-  // Execute query
-  if($stmt->execute()) {
-      // Return the ID of the newly inserted row
-      return $this->conn->lastInsertId();
   }
 
-  // Return false if execution fails
-  return false;
-}
+  // 3. create() to create Author (POST)
+  public function create() 
+  {
+    // Create query
+    $query = 'INSERT INTO ' . $this->table . ' (author) VALUES (:author)';
 
+    // Prepare statement
+    $stmt = $this->conn->prepare($query);
 
-  // Update Author
-  public function update() {
+    // Clean data
+    $this->author = htmlspecialchars(strip_tags($this->author));
+
+    // Bind data
+    $stmt->bindParam(':author', $this->author);
+
+    // Execute query
+    if($stmt->execute()) 
+    {
+        // Return the ID of the newly inserted row
+        return $this->conn->lastInsertId();
+    }
+
+    // Return false if execution fails
+    return false;
+  }
+
+  // 4. update() to update existing author (PUT)
+  public function update() 
+  {
     // Create query
     $query = 'UPDATE ' . $this->table . ' SET author = :author WHERE id = :id';
 
@@ -105,7 +112,8 @@ public function create() {
     $stmt->bindParam(':id', $this->id);
 
     // Execute query
-    if($stmt->execute()) {
+    if($stmt->execute()) 
+    {
       return true;
     }
 
@@ -115,8 +123,9 @@ public function create() {
     return false;
   }
 
-  // Delete Author
-  public function delete() {
+  // 5. delete() to delete author
+  public function delete() 
+  {
     // Create query
     $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
@@ -130,7 +139,8 @@ public function create() {
     $stmt->bindParam(':id', $this->id);
 
     // Execute query
-    if($stmt->execute()) {
+    if($stmt->execute()) 
+    {
       return true;
     }
 
@@ -140,3 +150,4 @@ public function create() {
     return false;
   }
 }
+?>

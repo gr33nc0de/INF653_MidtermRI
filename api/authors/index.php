@@ -1,5 +1,5 @@
 <?php
-// CORS headers
+// CORS 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -10,28 +10,30 @@ if ($method === 'OPTIONS') {
     exit();
 }
 
-// Include necessary files
+// Mecessary files
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 
-// Instantiate Database object
+// Create Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Author object
+// Create Author object
 $author = new Author($db);
 
-// Determine the HTTP request method
-switch ($method) {
+// Determine HTTP request method
+switch ($method) 
+{
     case 'GET':
         // Check if request has id param
         $author_id = isset($_GET['id']) ? $_GET['id'] : null;
-        if ($author_id !== null) {
-            // GET request for a single author
+        if ($author_id !== null) 
+        {
+            // GET for 1 author
             include_once 'read_single.php'; // if given id param 
             
         } else {
-            // GET request for all authors
+            // GET for all authors
             include_once 'read.php';
         }
         break;

@@ -25,3 +25,4 @@ if ($author->delete()) {
 } else {
     echo json_encode(array('message' => 'Author not deleted'));
 }
+?>

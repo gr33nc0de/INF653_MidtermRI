@@ -2,7 +2,8 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
 
-class Category {
+class Category 
+{
   // DB stuff
   private $conn;
   private $table = 'categories';
@@ -12,12 +13,14 @@ class Category {
   public $category;
 
   // Constructor with DB
-  public function __construct($db) {
+  public function __construct($db) 
+  {
     $this->conn = $db;
   }
 
-  // Get Categories
-  public function read() {
+  // 1. Read() to Get Categories
+  public function read() 
+  {
     // Create query
     $query = 'SELECT
                 id, category
@@ -35,7 +38,7 @@ class Category {
     return $stmt;
   }
 
-  // Get Single Category
+  // 2. Read_single() to Get Single Category
   public function read_single() 
   {
     // Create query
@@ -59,23 +62,23 @@ class Category {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Check if any row is returned
-    if ($row) {
+    if ($row) 
+    {
         // Author exists, set properties
         $this->category = $row['category'];
         return true; // Indicate author was found
-    } else {
+    } else 
+    {
         // No author found
         return false; // Indicate no author was found
     }
-}
+  }
 
-
-
-
-  // Create Category
-  public function create() {
+  // 3. create() to create Category (POST)
+  public function create() 
+  {
     // Create query
-    $query = 'INSERT INTO ' . $this->table . ' SET category = :category';
+    $query = 'INSERT INTO ' . $this->table . ' (category) VALUES (:category)';
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
@@ -87,18 +90,19 @@ class Category {
     $stmt->bindParam(':category', $this->category);
 
     // Execute query
-    if($stmt->execute()) {
-      return true;
+    if($stmt->execute()) 
+    {
+      return $this->conn->lastInsertId();
     }
 
-    // Print error if something goes wrong
-    printf("Error: %s.\n", $stmt->error);
-
+    // Return false if execution fails
     return false;
   }
 
-  // Update Category
-  public function update() {
+
+  // 4. update() to Update Category (PUT)
+  public function update() 
+  {
     // Create query
     $query = 'UPDATE ' . $this->table . ' SET category = :category WHERE id = :id';
 
@@ -114,7 +118,8 @@ class Category {
     $stmt->bindParam(':id', $this->id);
 
     // Execute query
-    if($stmt->execute()) {
+    if($stmt->execute()) 
+    {
       return true;
     }
 
@@ -124,8 +129,9 @@ class Category {
     return false;
   }
 
-  // Delete Category
-  public function delete() {
+  // 5. delete() to Delete Category
+  public function delete() 
+  {
     // Create query
     $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
@@ -139,7 +145,8 @@ class Category {
     $stmt->bindParam(':id', $this->id);
 
     // Execute query
-    if($stmt->execute()) {
+    if($stmt->execute()) 
+    {
       return true;
     }
 
@@ -149,3 +156,4 @@ class Category {
     return false;
   }
 }
+?>

@@ -1,46 +1,49 @@
 <?php
-  // Headers
-  header('Access-Control-Allow-Origin: *');
-  header('Content-Type: application/json');
-  
-  // Include necessary files
-  include_once '../../config/Database.php';
-  include_once '../../models/Author.php';
+    // CORS
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
 
-  // Instantiate Database object
-  $database = new Database();
-  $db = $database->connect();
+    // Necessary files
+    include_once '../../config/Database.php';
+    include_once '../../models/Author.php';
 
-  // Instantiate Author object
-  $author = new Author($db);
+    // Create Database object
+    $database = new Database();
+    $db = $database->connect();
 
-  // Read authors
-  $result = $author->read();
+    // Create Author object
+    $author = new Author($db);
 
-  // Get row count
-  $num = $result->rowCount();
+    // Read authors
+    $result = $author->read();
 
-  // Check if any authors
-  if ($num > 0) {
-      // Authors array
-      $authors_arr = array();
+    // Get row count
+    $num = $result->rowCount();
 
-      while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-          extract($row);
+    // Check if any authors
+    if ($num > 0) 
+    {
+        // Authors array
+        $authors_arr = array();
 
-          $author_item = array(
-              'id' => $id,
-              'author' => $author
-          );
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) 
+        {
+            extract($row);
 
-          // Push to authors array directly
-          array_push($authors_arr, $author_item);
-      }
+            $author_item = array(
+                'id' => $id,
+                'author' => $author
+            );
 
-      // Convert to JSON and output directly
-      echo json_encode($authors_arr);
-  } else {
-      // No authors found
-      echo json_encode(array('message' => 'No authors found'));
-  }
+            // Push to authors array directly
+            array_push($authors_arr, $author_item);
+        }
+
+        // Convert to JSON and output directly
+        echo json_encode($authors_arr);
+    } else 
+    {
+        // No authors found
+        echo json_encode(array('message' => 'No authors found'));
+    }
 ?>
