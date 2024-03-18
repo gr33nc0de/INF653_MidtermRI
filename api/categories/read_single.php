@@ -16,24 +16,22 @@ $db = $database->connect();
 $category = new Category($db);
 
 // Get category id from URL
-$category->id = isset($_GET['id']) ? $_GET['id'] : die("Category ID not provided.");
+$category->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-// Read single category
-$category->read_single(); 
+// Attempt to find the author and capture the result
+$categoryFound = $category->read_single();
 
-// Check if the category name was set
-if (!empty($category->category)) {
-    // Create array
+if ($categoryFound) {
+    // Author found, output author data
     $category_arr = array(
-        'id' => $category->id,
-        'category' => $category->category
+        'id' => (int) $category->id, // Casting to int for JSON number format
+        'author' => $category->category
     );
-
-    // Make JSON
     echo json_encode($category_arr);
 } else {
-    // No category found
-    echo json_encode(['message' => 'category_id Not Found']);
+    // Author not found, output not found message
+    echo json_encode(array('message' => 'category_id Not Found'));
 }
 
 ?>
+

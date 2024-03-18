@@ -36,7 +36,8 @@ class Category {
   }
 
   // Get Single Category
-  public function read_single() {
+  public function read_single() 
+  {
     // Create query
     $query = 'SELECT
                 id, category
@@ -57,9 +58,19 @@ class Category {
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Set properties
-    $this->category = $row['category'];
-  }
+    // Check if any row is returned
+    if ($row) {
+        // Author exists, set properties
+        $this->category = $row['category'];
+        return true; // Indicate author was found
+    } else {
+        // No author found
+        return false; // Indicate no author was found
+    }
+}
+
+
+
 
   // Create Category
   public function create() {
