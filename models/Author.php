@@ -37,14 +37,8 @@ class Author {
 
   // Get Single Author
   public function read_single() {
-    // Create query
-    $query = 'SELECT
-                id, author
-              FROM 
-                ' . $this->table . '
-              WHERE
-                id = ?
-              LIMIT 1';
+    // Query to check if author exists
+    $query = 'SELECT id, author FROM ' . $this->table . ' WHERE id = ? LIMIT 1';
 
     // Prepare statement
     $stmt = $this->conn->prepare($query);
@@ -57,9 +51,17 @@ class Author {
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Set properties
-    $this->author = $row['author'];
-  }
+    // Check if any row is returned
+    if ($row) {
+        // Author exists, set properties
+        $this->author = $row['author'];
+        return true; // Indicate author was found
+    } else {
+        // No author found
+        return false; // Indicate no author was found
+    }
+}
+
 
   // Create Author
   public function create() {
