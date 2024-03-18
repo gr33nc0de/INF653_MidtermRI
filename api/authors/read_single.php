@@ -4,35 +4,27 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// Include necessary files
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 
-// Instantiate Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Author object
 $author = new Author($db);
+$author->id = isset($_GET['id']) ? $_GET['id'] : die("Author ID not provided.");
 
-// Get author id from URL
-$author->id = isset($_GET['id']) ? $_GET['id'] : die();
-
-// Read single author
-$author->read_single();
-
-// Check if the category name was set
-if (!empty($author->author)) {
-  // Create array
-  $author_arr = array(
-      'id' => $author->id,
-      'author' => $author->author
-  );
-
-  // Make JSON
-  echo json_encode($author_arr);
+// Attempt to read single author
+if ($author->read_single()) {
+    // Author found
+    $author_arr = [
+        'id' => (int) $author->id, // Casting to int for JSON number output
+        'author' => $author->author,
+    ];
+    echo json_encode($author_arr);
 } else {
-  // No category found
-  echo json_encode(array('message' => 'author_id Not Found'));
+    // Author not found
+    http_response_code(404); // Optional: Set HTTP status code to 404
+    echo json_encode(['message' => 'author_id Not Found']);
 }
+?>
 
