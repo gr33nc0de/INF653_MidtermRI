@@ -17,11 +17,11 @@ $author = new Author($db);
 // Get author id from URL
 $author->id = isset($_GET['id']) ? $_GET['id'] : die("Author ID not provided.");
 
-// Read single author
+// Read single category
 $author->read_single(); 
 
 // Attempt to read single author
-if ($author->read_single()) {
+if (!empty($author->author)) {
   // Author found
   $author_arr = [
       'id' => (int) $author->id, // Casting to int for JSON number output
