@@ -8,11 +8,11 @@ header('Content-Type: application/json');
 include_once '../../config/Database.php';
 include_once '../../models/Category.php';
 
-// Instantiate Database object
+// Create Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Category object
+// Create Category object
 $category = new Category($db);
 
 // Get category id from URL
@@ -20,7 +20,6 @@ $category->id = isset($_GET['id']) ? $_GET['id'] : die("Category ID not provided
 
 // Read single category
 $category->read_single(); 
-
 
 // Check if the category name was set
 if (!empty($category->category)) {
