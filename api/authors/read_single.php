@@ -21,16 +21,16 @@ $author->id = isset($_GET['id']) ? $_GET['id'] : die("Author ID not provided.");
 $author->read_single(); 
 
 // Attempt to read single author
-if (!empty($author->author)) {
-    // Author found
-    $author_arr = array(
-      'id' => $author->id,
-      'author' => $author->author
-    );
-    echo json_encode($author_arr);
+if ($author->read_single()) {
+  // Author found
+  $author_arr = [
+      'id' => (int) $author->id, // Casting to int for JSON number output
+      'author' => $author->author,
+  ];
+  echo json_encode($author_arr);
 } else {
-    // Author not found
-    echo json_encode(['message' => 'author_id Not Found']);
+  // Author not found
+  echo json_encode(['message' => 'author_id Not Found']);
 }
 ?>
 
