@@ -25,7 +25,7 @@ if ($categoryFound) {
     // Author found, output author data
     $category_arr = array(
         'id' => (int) $category->id, // Casting to int for JSON number format
-        'author' => $category->category
+        'category' => $category->category
     );
     echo json_encode($category_arr);
 } else {
