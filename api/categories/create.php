@@ -22,7 +22,7 @@
   if (!empty($data->category)) 
   { 
       // Set category property value
-      $category->name = $data->category;
+      $category->category = $data->category;
 
       // Create category
       $new_category_id = $category->create();
