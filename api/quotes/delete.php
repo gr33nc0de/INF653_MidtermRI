@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // CORS
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -16,23 +19,25 @@ $db = $database->connect();
 // Create Quote object
 $quote = new Quote($db);
 
+echo "passes here";
 // Get quote id from URL
 $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+echo "passes here 2";
 
 // Check if quote exists before trying to delete 
-if (!$quote->exists()) {
+if (!$quote->quoteExists()) 
+{
     echo json_encode(array('message' => 'No Quotes Found'));
-} else {
+} else 
+{
     // Delete quote
     if ($quote->delete()) {
         echo json_encode(
-            array(
-                'message' => 'Quote deleted',
-                'id' => $quote->id // Assuming $quote->id is still set to the deleted quote's id
-            )
+            array('id' => $quote->id)
         );
     } else {
         echo json_encode(array('message' => 'Quote not deleted'));
     }
 }
+
 ?>

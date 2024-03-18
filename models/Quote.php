@@ -197,11 +197,36 @@ public function update()
     return 'update_failed';
 }
 
-
   // 5. delete() to Delete Quote
+  public function delete() 
+  {
+      // Check if the quote exists
+      if (!$this->quoteExists()) 
+      {
+          return false;
+      }
+
+      // Delete query
+      $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+
+      // Prepare statement
+      $stmt = $this->conn->prepare($query);
+
+      // Bind ID parameter
+      $stmt->bindParam(':id', $this->id);
+
+      // Execute the query
+      if ($stmt->execute()) 
+      {
+          return true;
+      }
+
+      return false;
+  }
+
 
   // 6. Check if the quote exists
-  private function quoteExists() 
+  public function quoteExists() 
   {
     $query = "SELECT id FROM " . $this->table . " WHERE id = ? LIMIT 1";
 
