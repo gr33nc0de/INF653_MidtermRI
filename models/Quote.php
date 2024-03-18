@@ -1,6 +1,6 @@
 <?php 
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 class Quote 
 {
@@ -148,9 +148,9 @@ class Quote
     }
   }
 
-  // 4. update() to Update Quote (PUT)
-  public function update() 
-  {
+// 4. update() to Update Quote (PUT)
+public function update() 
+{
     // Check if quote exists
     if (!$this->quoteExists()) 
     {
@@ -158,13 +158,13 @@ class Quote
     }
 
     // Verify if the author exists
-    if (!$this->authorExists()) 
+    if (!$this->authorExists($this->author_id)) 
     {
         return 'author_id_not_found';
     }
 
     // Verify if the category exists
-    if (!$this->categoryExists()) 
+    if (!$this->categoryExists($this->category_id)) 
     {
         return 'category_id_not_found';
     }
@@ -195,14 +195,15 @@ class Quote
     }
 
     return 'update_failed';
-  }
+}
+
 
   // 5. delete() to Delete Quote
 
   // 6. Check if the quote exists
   private function quoteExists() 
   {
-    $query = "SELECT id FROM " . $this->table . " WHERE id = ? LIMIT 0,1";
+    $query = "SELECT id FROM " . $this->table . " WHERE id = ? LIMIT 1";
 
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $this->id);
