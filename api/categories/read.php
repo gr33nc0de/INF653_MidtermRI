@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 // Include necessary files
 include_once '../../config/Database.php';
-include_once '../../models/Category.php'; // Change to Category model
+include_once '../../models/Category.php'; 
 
 // Instantiate Database object
 $database = new Database();

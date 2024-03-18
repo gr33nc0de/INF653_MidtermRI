@@ -1,48 +1,40 @@
 <?php
+
 // Headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 // Include necessary files
 include_once '../../config/Database.php';
-include_once '../../models/Quote.php';
+include_once '../../models/Category.php';
 
 // Instantiate Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Quote object
-$quote = new Quote($db);
+// Instantiate Category object
+$category = new Category($db);
 
-// Get quote id from URL
-$quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+// Get category id from URL
+$category->id = isset($_GET['id']) ? $_GET['id'] : die("Category ID not provided.");
 
-// Read single quote
-$result = $quote->read_single();
+// Read single category
+$category->read_single(); 
 
-// Get row count
-$num = $result->rowCount();
 
-// Check if any quote found
-if ($num > 0) {
-    // Fetch quote record
-    $row = $result->fetch(PDO::FETCH_ASSOC);
-
-    // Extract row values
-    extract($row);
-
+// Check if the category name was set
+if (!empty($category->category)) {
     // Create array
-    $quote_arr = array(
-        'id' => $id,
-        'quote' => $quote,
-        'author' => $author,
-        'category' => $category
+    $category_arr = array(
+        'id' => $category->id,
+        'category' => $category->category
     );
 
     // Make JSON
-    echo json_encode($quote_arr);
+    echo json_encode($category_arr);
 } else {
-    // No quote found
-    echo json_encode(array('message' => 'No quote found with that ID'));
+    // No category found
+    echo json_encode(array('message' => 'No category found with that ID'));
 }
+
 ?>

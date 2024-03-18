@@ -19,25 +19,32 @@ $database = new Database();
 $db = $database->connect();
 
 // Instantiate Category object
-$category = new Category($db); // Update to Category object
+$category = new Category($db);
 
-// Determine the HTTP request method and route accordingly
+// Determine HTTP request method
 switch ($method) {
     case 'GET':
-        // Handle GET request
-        include_once 'read.php'; 
+        // Check if request has id param
+        $category_id = isset($_GET['id']) ? $_GET['id'] : null;
+        if ($category_id !== null) {
+            // GET request for a single category
+            include_once 'read_single.php'; // if given id param 
+        } else {
+            // GET request for all categories
+            include_once 'read.php';
+        }
         break;
     case 'POST':
-        // Handle POST request
-        include_once 'create.php'; 
+        // POST request
+        include_once 'create.php';
         break;
     case 'PUT':
-        // Handle PUT request
+        // PUT request
         include_once 'update.php';
         break;
     case 'DELETE':
-        // Handle DELETE request
-        include_once 'delete.php'; 
+        // DELETE request
+        include_once 'delete.php';
         break;
     default:
         // Invalid method
