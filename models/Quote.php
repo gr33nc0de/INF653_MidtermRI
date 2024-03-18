@@ -1,5 +1,9 @@
 <?php 
-class Quote {
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+
+class Quote 
+{
   // DB stuff
   private $conn;
   private $table = 'quotes';
@@ -18,8 +22,9 @@ class Quote {
   }
 
   // Get Quotes
-  public function read() {
-    // Create query
+  public function read() 
+  {
+    // SQL Query
     $query = 'SELECT 
                 a.author AS author, 
                 c.category AS category, 
@@ -32,7 +37,7 @@ class Quote {
                 categories c ON q.category_id = c.id
               ORDER BY
                 q.id ASC';
-    
+  
     // Prepare statement
     $stmt = $this->conn->prepare($query);
 
@@ -40,52 +45,134 @@ class Quote {
     $stmt->execute();
 
     return $stmt;
-}
-
- // Get Single Quote
-public function read_single() {
-  // Create query
-  $query = 'SELECT 
-              a.author as author_name, 
-              c.category as category_name, 
-              q.id, q.quote, q.author_id, q.category_id
-            FROM 
-              ' . $this->table . ' q
-            LEFT JOIN
-              authors a ON q.author_id = a.id
-            LEFT JOIN
-              categories c ON q.category_id = c.id
-            WHERE
-              q.id = ?
-            LIMIT 0,1';
-
-  // Prepare statement
-  $stmt = $this->conn->prepare($query);
-
-  // Bind ID
-  $stmt->bindParam(1, $this->id);
-
-  // Execute query
-  $stmt->execute();
-
-  // Check if a quote was found
-  if ($stmt->rowCount() > 0) {
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-      // Set properties
-      $this->quote = $row['quote'];
-      $this->author_id = $row['author_id'];
-      $this->category_id = $row['category_id'];
-      $this->author_name = $row['author_name'];
-      $this->category_name = $row['category_name'];
-  } else {
-      // No quote found with the specified ID
-      $this->quote = null;
-      $this->author_id = null;
-      $this->category_id = null;
-      $this->author_name = null;
-      $this->category_name = null;
   }
-}
 
+  // Get Single Quote
+  public function read_single() 
+  {
+    // SQL Query
+    $query = 'SELECT 
+                a.author as author_name, 
+                c.category as category_name, 
+                q.id, q.quote, q.author_id, q.category_id
+              FROM 
+                ' . $this->table . ' q
+              LEFT JOIN
+                authors a ON q.author_id = a.id
+              LEFT JOIN
+                categories c ON q.category_id = c.id
+              WHERE
+                q.id = ?
+              LIMIT 1';
+
+    // Prepare statement
+    //var_dump($this->conn); // Check if PDO object & not null
+    $stmt = $this->conn->prepare($query);
+
+    // Bind ID
+    $stmt->bindParam(1, $this->id);
+
+    // Execute query
+    $stmt->execute();
+
+    // Check if a quote was found
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Set properties
+        $this->quote = $row['quote'];
+        $this->author_id = $row['author_id'];
+        $this->category_id = $row['category_id'];
+        $this->author_name = $row['author_name'];
+        $this->category_name = $row['category_name'];
+    } else {
+        // No quote found with the specified ID
+        $this->quote = null;
+        $this->author_id = null;
+        $this->category_id = null;
+        $this->author_name = null;
+        $this->category_name = null;
+    }
+  }
+
+  // Update Quote
+  public function update() 
+  {
+    // Check if quote exists
+    if (!$this->quoteExists()) {
+        return 'no_quote_found';
+    }
+
+    // Verify if the author exists
+    if (!$this->authorExists()) {
+        return 'author_id_not_found';
+    }
+
+    // Verify if the category exists
+    if (!$this->categoryExists()) {
+        return 'category_id_not_found';
+    }
+
+    // Update query
+    $query = "UPDATE " . $this->table . "
+              SET
+                quote = :quote,
+                author_id = :author_id,
+                category_id = :category_id
+              WHERE
+                id = :id";
+
+    // Prepare statement
+    $stmt = $this->conn->prepare($query);
+
+    // Clean data and bind parameters
+    $this->quote = htmlspecialchars(strip_tags($this->quote));
+    $stmt->bindParam(':quote', $this->quote);
+    $stmt->bindParam(':author_id', $this->author_id);
+    $stmt->bindParam(':category_id', $this->category_id);
+    $stmt->bindParam(':id', $this->id);
+
+    // Execute the query
+    if ($stmt->execute()) {
+        return 'updated';
+    }
+
+    return 'update_failed';
+  }
+
+  // Check if the quote exists
+  private function quoteExists() 
+  {
+    $query = "SELECT id FROM " . $this->table . " WHERE id = ? LIMIT 0,1";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->id);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+
+  // Check if the author exists
+  private function authorExists() 
+  {
+    $query = "SELECT id FROM authors WHERE id = ? LIMIT 0,1";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->author_id);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
+
+  // Check if the category exists
+  private function categoryExists() 
+  {
+    $query = "SELECT id FROM categories WHERE id = ? LIMIT 0,1";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->category_id);
+    $stmt->execute();
+
+    return $stmt->rowCount() > 0;
+  }
 }

@@ -1,4 +1,7 @@
 <?php 
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+
 class Category {
   // DB stuff
   private $conn;
@@ -21,7 +24,7 @@ class Category {
               FROM 
                 ' . $this->table . '
               ORDER BY
-                category ASC'; // or 'id ASC' depending on your preference
+                category ASC'; 
     
     // Prepare statement
     $stmt = $this->conn->prepare($query);

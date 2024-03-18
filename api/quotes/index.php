@@ -1,5 +1,5 @@
 <?php
-// CORS headers
+// CORS
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -14,33 +14,40 @@ if ($method === 'OPTIONS') {
 include_once '../../config/Database.php';
 include_once '../../models/Quote.php';
 
-// Instantiate Database object
+// Create Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Quote object
+// Create Quote object
 $quote = new Quote($db);
 
-// Determine the HTTP request method and route accordingly
+// Determine HTTP request method & route
 switch ($method) {
     case 'GET':
-        // Handle GET request
-        include_once 'read.php';
+        // Check if request has an 'id' parameter
+        $quote_id = isset($_GET['id']) ? $_GET['id'] : null;
+        if ($quote_id !== null) {
+            // GET request for a single quote
+            include_once 'read_single.php'; // if given id param 
+        } else {
+            // GET request for all quotes
+            include_once 'read.php';
+        }
         break;
     case 'POST':
-        // Handle POST request
+        // POST request
         include_once 'create.php';
         break;
     case 'PUT':
-        // Handle PUT request
+        // PUT request
         include_once 'update.php';
         break;
     case 'DELETE':
-        // Handle DELETE request
+        // DELETE request
         include_once 'delete.php';
         break;
     default:
-        // Invalid method
+        // Invalid input
         http_response_code(405); // Method Not Allowed
         echo json_encode(array("message" => "Method not allowed"));
         break;

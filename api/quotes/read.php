@@ -1,5 +1,5 @@
 <?php
-// Headers
+// CORS
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 include_once '../../config/Database.php';
 include_once '../../models/Quote.php';
 
-// Instantiate Database object
+// Create Database object
 $database = new Database();
 $db = $database->connect();
 
@@ -40,9 +40,11 @@ if ($num > 0) {
     }
 
     // Convert to JSON and output
+    //echo 'Running the read file';
     echo json_encode($quotes_arr);
+    
+
 } else {
-    // No quotes found
     echo json_encode(array('message' => 'No Quotes Found'));
 }
 ?>
