@@ -1,5 +1,5 @@
 <?php
-// Headers
+// CORS
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
@@ -9,11 +9,11 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type
 include_once '../../config/Database.php';
 include_once '../../models/Quote.php';
 
-// Instantiate Database object
+// Create Database object
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Quote object
+// Create Quote object
 $quote = new Quote($db);
 
 // Get raw posted data

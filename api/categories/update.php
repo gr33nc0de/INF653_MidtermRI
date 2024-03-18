@@ -32,6 +32,6 @@ if (!empty($data->name)) {
         echo json_encode(array('message' => 'Category not updated'));
     }
 } else {
-    echo json_encode(array('message' => 'Missing required parameters'));
+    echo json_encode(array('message' => 'Missing Required Parameters'));
 }
 ?>

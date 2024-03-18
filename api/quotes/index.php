@@ -21,10 +21,10 @@ $db = $database->connect();
 // Create Quote object
 $quote = new Quote($db);
 
-// Determine HTTP request method & route
+// Determine HTTP request method
 switch ($method) {
     case 'GET':
-        // Check if request has an 'id' parameter
+        // Check if request has id param
         $quote_id = isset($_GET['id']) ? $_GET['id'] : null;
         if ($quote_id !== null) {
             // GET request for a single quote

@@ -34,5 +34,5 @@ if (!empty($quote->quote)) {
     echo json_encode($quote_arr);
 } else {
     // No quote found
-    echo json_encode(array('message' => 'No quote found with that ID'));
+    echo json_encode(array('message' => 'No Quotes Found'));
 }
