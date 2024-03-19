@@ -200,7 +200,7 @@ public function update()
   // 5. delete() to Delete Quote
   public function delete() 
   {
-      // Check if the quote exists
+      // Check if quote exists
       if (!$this->quoteExists()) 
       {
           return false;
@@ -215,7 +215,7 @@ public function update()
       // Bind ID parameter
       $stmt->bindParam(':id', $this->id);
 
-      // Execute the query
+      // Execute query
       if ($stmt->execute()) 
       {
           return true;
@@ -225,7 +225,7 @@ public function update()
   }
 
 
-  // 6. Check if the quote exists
+  // 6. Check if quote exists
   public function quoteExists() 
   {
     $query = "SELECT id FROM " . $this->table . " WHERE id = ? LIMIT 1";
@@ -260,7 +260,7 @@ public function update()
     }
 }
 
-  // 7. Check if category exists
+  // 8. Check if category exists
   public function categoryExists($categoryId) 
   {
       $query = 'SELECT COUNT(*) FROM categories WHERE id = :category_id';

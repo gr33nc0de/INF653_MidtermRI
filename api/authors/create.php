@@ -16,7 +16,7 @@
     // Create Author object
     $author = new Author($db); 
 
-    // Get raw posted data
+    // Get posted data
     $data = json_decode(file_get_contents("php://input"));
 
     if (!empty($data->author)) 
@@ -29,7 +29,7 @@
 
         if($new_author_id) 
         {
-            // If the author was successfully created, return its data
+            // If the author was created, return its data
             $author_data = array(
                 'id' => $new_author_id,
                 'author' => $data->author

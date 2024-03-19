@@ -64,13 +64,13 @@ class Category
     // Check if any row is returned
     if ($row) 
     {
-        // Author exists, set properties
+        // Category exists, set properties
         $this->category = $row['category'];
-        return true; // Indicate author was found
+        return true; // Indicate Category was found
     } else 
     {
-        // No author found
-        return false; // Indicate no author was found
+        // No Category found
+        return false; // Indicate no Category was found
     }
   }
 
@@ -132,28 +132,28 @@ class Category
   // 5. delete() to Delete Category
   public function delete() 
   {
-    // Create query
-    $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+      // Create query
+      $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
-    // Prepare statement
-    $stmt = $this->conn->prepare($query);
+      // Prepare statement
+      $stmt = $this->conn->prepare($query);
 
-    // Clean data
-    $this->id = htmlspecialchars(strip_tags($this->id));
+      // Clean data
+      $this->id = htmlspecialchars(strip_tags($this->id));
 
-    // Bind data
-    $stmt->bindParam(':id', $this->id);
+      // Bind data
+      $stmt->bindParam(':id', $this->id);
 
-    // Execute query
-    if($stmt->execute()) 
-    {
-      return true;
-    }
+      // Execute query
+      if($stmt->execute()) {
+          return true;
+      }
 
-    // Print error if something goes wrong
-    printf("Error: %s.\n", $stmt->error);
+      // Print error if something goes wrong
+      printf("Error: %s.\n", $stmt->error);
 
-    return false;
+      return false;
   }
+
 }
 ?>

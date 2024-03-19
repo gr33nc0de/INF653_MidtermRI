@@ -10,7 +10,8 @@ class Database
   private $username;
   private $password;
 
-  public function __construct() {
+  public function __construct() 
+  {
     $this->username = getenv('USERNAME');
     $this->password = getenv('PASSWORD');
     $this->dbname = getenv('DBNAME');
@@ -18,7 +19,8 @@ class Database
     $this->port = getenv('PORT');
   }
 
-  public function connect() {
+  public function connect() 
+  {
     if($this->conn) {
       // Connection already exists, return it
       return $this->conn;

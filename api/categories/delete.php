@@ -1,28 +1,42 @@
 <?php
-  // Headers
+  // CORS
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: DELETE');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
-  // Include necessary files
+  // Necessary files
   include_once '../../config/Database.php';
-  include_once '../../models/Category.php'; // Change from Author to Category
+  include_once '../../models/Category.php'; 
 
-  // Instantiate Database object
+  // Create Database object
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate Category object
-  $category = new Category($db); // Change from Author to Category
+  // Create Category object
+  $category = new Category($db); // Change from category to Category
 
-  // Get category id from URL
-  $category->id = isset($_GET['id']) ? $_GET['id'] : die();
+  // Get raw posted data
+  $data = json_decode(file_get_contents("php://input"));
 
-  // Delete category
-  if ($category->delete()) {
-      echo json_encode(array('message' => 'Category deleted'));
-  } else {
-      echo json_encode(array('message' => 'Category not deleted'));
-  }
+  if (!empty($data->id)) 
+  {
+    $category->id = $data->id;
+
+    // Delete category
+    if ($category->delete()) 
+    {
+        // Return ID of deleted category
+        echo json_encode(array('id' => $category->id));
+    } else 
+    {
+        echo json_encode(array('message' => 'Category not deleted'));
+    }
+} else 
+{
+    // ID is missing
+    echo json_encode(array('message' => 'Missing Required Parameter: id'));
+    die();
+}
 ?>
+

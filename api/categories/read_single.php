@@ -4,7 +4,7 @@
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
 
-    // Mecessary files
+    // Necessary files
     include_once '../../config/Database.php';
     include_once '../../models/Category.php';
 
@@ -18,7 +18,7 @@
     // Get category id from URL
     $category->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-    // Find author and store result
+    // Find author & store result
     $categoryFound = $category->read_single();
 
     if ($categoryFound) 

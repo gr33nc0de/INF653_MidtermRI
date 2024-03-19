@@ -1,5 +1,4 @@
 <?php
-
     // error_reporting(E_ALL);
     // ini_set('display_errors', 1);
 
@@ -49,7 +48,7 @@
         // Try to create quote
         if ($quote->create()) 
         {
-            // If quote was successfully created
+            // If quote was created
             $newQuoteData = array(
                 'id' => $db->lastInsertId(),
                 'quote' => $data->quote,

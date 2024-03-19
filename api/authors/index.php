@@ -10,7 +10,7 @@ if ($method === 'OPTIONS') {
     exit();
 }
 
-// Mecessary files
+// Necessary files
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 

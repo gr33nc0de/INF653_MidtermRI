@@ -1,19 +1,19 @@
 <?php
-    // Headers
+    // CORS
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: PUT');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
-    // Include necessary files
+    // Necessary files
     include_once '../../config/Database.php';
     include_once '../../models/Author.php';
 
-    // Instantiate Database object
+    // Create Database object
     $database = new Database();
     $db = $database->connect();
 
-    // Instantiate Author object
+    // Create Author object
     $author = new Author($db);
 
     // Get posted data
@@ -29,13 +29,13 @@
         // Update author
         if ($author->update()) 
         {
-            // Prepare the response array
+            // Prepare response array
             $response = array(
                 "id" => $author->id,
                 "author" => $author->author
             );
 
-            // Return the response in JSON format
+            // Return response in JSON format
             echo json_encode($response);
         } else 
         {

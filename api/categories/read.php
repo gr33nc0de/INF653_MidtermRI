@@ -39,7 +39,7 @@
             array_push($categories_arr, $category_item);
         }
 
-        // Convert to JSON and output
+        // Convert to JSON & output
         echo json_encode($categories_arr);
     } else 
     {
